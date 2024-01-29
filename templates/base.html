@@ -1,3 +1,5 @@
+{% load thumbnail %}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,12 +22,13 @@
           TIL<span class="text-teal-600">.</span>
         </h1>
         <div id="profile" class="space-y-3">
-          <img
-            src="https://images.unsplash.com/photo-1628157588553-5eeea00af15c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"
-            alt="Avatar user" class="w-10 md:w-16 rounded-full mx-auto" />
+          
+          {% thumbnail request.user.profile.profile_pic "100x100" crop="center" as im %}
+                            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"class="w-10 md:w-16 rounded-full mx-auto" alt="Avatar user">
+          {% endthumbnail %}
           <div>
             <h2 class="font-medium text-xs md:text-sm text-center text-teal-500">
-              {{ request.user.username}}
+              {{ request.user.username }}
             </h2>
             <p class="text-xs text-gray-500 text-center">User</p>
           </div>
@@ -41,7 +44,17 @@
             </svg>
             <span class="">Home</span>
           </a>
-          {% if request.user.is_authenticated %}
+
+          
+          <a href="{% url 'feed:create' %}"
+          class="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out">
+          <svg class="w-6 h-6 fill-current inline-block" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM11 5v4a1 1 0 01-2 0V6H6a1 1 0 110-2h3V3a1 1 0 012 0v3h3a1 1 0 110 2h-3z"/>
+          </svg>            
+          <span class="">Create</span>
+        </a>
+        
+        {% if request.user.is_authenticated %}
           <a href="{% url 'account_logout' %}"
             class="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out">
             <svg class="w-6 h-6 fill-current inline-block" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -49,17 +62,25 @@
             </svg>            
             <span class="">Logout</span>
           </a>
+
           {% else %}
           <a href="{% url 'account_login' %}"
-            class="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out">
-            <svg class="w-6 h-6 fill-current inline-block" fill="currentColor" viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z">
-              </path>
+          class="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out">
+            <svg class="w-6 h-6 fill-current inline-block" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+              <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"/>
             </svg>
             <span class="">Login</span>
           </a>
+
+          <a href="{% url 'account_signup' %}"
+          class="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out">
+            <svg class="w-6 h-6 fill-current inline-block" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 20a2.5 2.5 0 01-2.5-2.5V14a2.5 2.5 0 015 0v3.5A2.5 2.5 0 0110 20zm4.5-7.5H15V13a4 4 0 00-4-4H9a4 4 0 00-4 4v-.5H5.5a2.5 2.5 0 010-5H6V5a5 5 0 0110 0v2.5h.5a2.5 2.5 0 110 5zm0-7.5a2.5 2.5 0 110 5 2.5 2.5 0 010-5zm-9 2.5a2.5 2.5 0 110 5 2.5 2.5 0 010-5z"/>
+            </svg>
+            <span class="">Signup</span>
+          </a>
+
+
           {% endif %}
         </div>
       </div>

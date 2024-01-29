@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+
+
+{% block title %}{{ post.text }} by {{ post.author.username }}{% endblock %}
+
+
+{% block body %}
+    <!-- component is from https://tailwindcomponents.com/component/post-artical -->
+    {% include "includes/post.html" with post=post %}
+        
+{% endblock %}
+
+    
