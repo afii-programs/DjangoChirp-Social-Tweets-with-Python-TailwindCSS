@@ -1,4 +1,5 @@
 {% load thumbnail %}
+{% load static %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -7,6 +8,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}Default{% endblock %}</title>
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
@@ -35,48 +37,34 @@
         </div>
         <div id="menu" class="flex flex-col space-y-2">
           <a href="/"
-            class="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:text-base rounded-md transition duration-150 ease-in-out">
-            <svg class="w-6 h-6 fill-current inline-block" fill="currentColor" viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z">
-              </path>
-            </svg>
+            class="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:text-base rounded-md transition duration-150 ease-in-out" style="display: flex; ">
+            <i class='bx bx-home bx-sm' style='color:rgba(0, 200, 180)'></i>
             <span class="">Home</span>
           </a>
 
           
           <a href="{% url 'feed:create' %}"
-          class="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out">
-          <svg class="w-6 h-6 fill-current inline-block" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-            <path d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM11 5v4a1 1 0 01-2 0V6H6a1 1 0 110-2h3V3a1 1 0 012 0v3h3a1 1 0 110 2h-3z"/>
-          </svg>            
+          class="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out modal-click" style="display: flex; ">
+          <i class='bx bxs-message-rounded-add bx-sm' style='color:rgba(0, 200, 180)'></i>
           <span class="">Create</span>
         </a>
         
         {% if request.user.is_authenticated %}
           <a href="{% url 'account_logout' %}"
-            class="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out">
-            <svg class="w-6 h-6 fill-current inline-block" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-              <path d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM11 5v4a1 1 0 01-2 0V6H6a1 1 0 110-2h3V3a1 1 0 012 0v3h3a1 1 0 110 2h-3z"/>
-            </svg>            
+            class="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out" style="display: flex; ">
+            <i class='bx bx-log-out bx-sm' style='color:rgba(0, 200, 180)'></i> 
             <span class="">Logout</span>
           </a>
 
           {% else %}
           <a href="{% url 'account_login' %}"
-          class="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out">
-            <svg class="w-6 h-6 fill-current inline-block" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-              <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"/>
-            </svg>
-            <span class="">Login</span>
+          class="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out" style="display: flex; ">
+          <i class='bx bx-log-in bx-sm' style='color:rgba(0, 200, 180)'></i> <span>Login</span>
           </a>
 
           <a href="{% url 'account_signup' %}"
-          class="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out">
-            <svg class="w-6 h-6 fill-current inline-block" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-              <path d="M10 20a2.5 2.5 0 01-2.5-2.5V14a2.5 2.5 0 015 0v3.5A2.5 2.5 0 0110 20zm4.5-7.5H15V13a4 4 0 00-4-4H9a4 4 0 00-4 4v-.5H5.5a2.5 2.5 0 010-5H6V5a5 5 0 0110 0v2.5h.5a2.5 2.5 0 110 5zm0-7.5a2.5 2.5 0 110 5 2.5 2.5 0 010-5zm-9 2.5a2.5 2.5 0 110 5 2.5 2.5 0 010-5z"/>
-            </svg>
+          class="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out" style="display: flex; ">
+          <i class='bx bx-archive-out bx-sm' style='color:rgba(0,255,206,0.83)'></i>
             <span class="">Signup</span>
           </a>
 
@@ -90,6 +78,32 @@
     </div>
   </div>
   </class=>
+
+
+{% if request.user.is_authenticated %}
+  <div class="fixed left-0 top-0 flex h-full w-full items-center justify-center bg-black bg-opacity-60 py-10 hidden js-modal" id="create">
+    <div class="max-h-full w-full max-w-xl overflow-y-auto sm:rounded-2xl bg-white">
+      <div class="w-full">
+        <div class="m-8 my-20 max-w-[400px] mx-auto">
+          <div class="mb-8">
+            <h1 class="mb-4 text-3xl font-extrabold">New Post</h1>
+           <div class="mb-4">
+              <textarea class="border-2 border-teal-500 my-4 w-full js-post-text" rows="4" placeholder="Write Your Thoughts" maxlenght="240"></textarea>
+           </div>
+          </div>
+          <div class="space-y-4">
+            <button class="p-3 rounded-full text-white w-full font-semibold js-submit" style="background-color: rgba(0, 255, 206)">Submit</button>
+            <button class="p-3 bg-white border rounded-full w-full font-semibold modal-click">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endif %}
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+<script src="{% static 'js/main.js' %}"></script>
 
 </body>
 
