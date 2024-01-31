@@ -20,7 +20,7 @@
             {% endif %}
                 <div>
                     {# TODO: User needs a link to their bio and a photo and a thumbnail and a name #}
-                    <a class="flex items-center" href="#">
+                    <a class="flex items-center" href="{% url "profiles:detail" post.author.username %}">
 
                         {% thumbnail post.author.profile.profile_pic "100x100" crop="center" as im %}
                         <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="mx-4 w-10 h-10 object-cover rounded-full hidden sm:block" alt="avatar">
