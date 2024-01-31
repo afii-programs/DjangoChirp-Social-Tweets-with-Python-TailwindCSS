@@ -39,8 +39,8 @@ $(document).on("click",".modal-click", function(e) {
 .on("click",".js-submit", function(e) {
     e.preventDefault();
     
-    const post_text = $(".js-post-text").val().trim()
-    const btn = $(this)
+    const text = $(".js-post-text").val().trim()
+    const $btn = $(this)
     if(!text.length) {
         return false
     }
@@ -55,7 +55,7 @@ $(document).on("click",".modal-click", function(e) {
         success: (dataHtml) => {
             $(".js-modal").addClass("hidden");
             $("#posts-container").prepend(dataHtml);
-            $btn.prop("disabled", false).text("New Post");
+            $btn.prop("disabled", false).text("Submit");
             $(".js-post-text").val('')
         },
         error: (error) => {

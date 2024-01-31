@@ -6,12 +6,13 @@
 
 
 {% block body %}
+    <div id="posts-container">
         {% for post in posts %}
         
             {% include "includes/post.html" with post=post detail_on=True %}
         
         {% endfor %}
-        
+    </div>
 {% endblock %}
 
     
