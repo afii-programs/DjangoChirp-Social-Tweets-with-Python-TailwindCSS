@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}
+Add Image
+{% endblock %}
+
+
+{% block body %}
+
+    <div class="row">
+        <form method="POST" action="" enctype="multipart/form-data" class="col-sm-3 offset-4 my-3 bg-info bg-opacity-10 border border-info rounded">
+            {% csrf_token %}
+            {{ form.as_ul }}
+            <div>
+                <button type="submit" class="btn btn-success"> &rarr; Submit </button>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}

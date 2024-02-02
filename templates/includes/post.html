@@ -1,33 +1,36 @@
 {% load thumbnail %}
+{% load static %}
 
-<!-- component is from https://tailwindcomponents.com/component/post-artical -->
-        <div class="max-w-4xl px-10 my-4 py-6 bg-white rounded-lg shadow-md" style='width: 50rem'>
-            <div class="flex justify-between items-center">
-                <span class="font-light text-gray-600">{{ post.date|date:"F j, Y, g:i:a" }}</span>
-            </div>
-            <div class="mt-2">
-                <p class="mt-2 text-gray-600">{{ post.text }}</p>
-            </div>
+<div class="max-w-4xl px-20 mx-50 my-4 py-6 bg-white rounded-lg shadow-md" style='width: 45rem'>
+    <div class="flex justify-between items-center">
+        <span class="font-light text-gray-600">{{ post.date|date:"F j, Y, g:i:a" }}</span>
+    </div>
+    <div class="mt-2">
+        <p class="mt-2 text-gray-600">{{ post.text }}</p>
+    </div>
 
-            {% if detail_on %}
-            <div class="flex justify-between items-center mt-4">
-                <a class="text-gray-600 hover:underline" href="{% url "feed:detail" post.id %}">
-                    <i class='bx bx-fade-right-hover bxs-right-arrow-circle bx-md' style="color: rgba(0, 200, 180)"></i>
-                </a>
-            {% else %}
-            <div class="flex justify-between items-center mt-4">
-            <span>&nbsp;</span>
-            {% endif %}
-                <div>
-                    {# TODO: User needs a link to their bio and a photo and a thumbnail and a name #}
-                    <a class="flex items-center" href="{% url "profiles:detail" post.author.username %}">
-
-                        {% thumbnail post.author.profile.profile_pic "100x100" crop="center" as im %}
-                        <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="mx-4 w-10 h-10 object-cover rounded-full hidden sm:block" alt="avatar">
-                        {% endthumbnail %}
-
-                        <h1 class="text-gray-700 font-bold">{{post.author.username}}</h1>
-                    </a>
+    {% if detail_on %}
+    <div class="flex justify-between items-center mt-4">
+        <a class="text-gray-600 hover:underline" href="{% url "feed:detail" post.id %}">
+            <i class='bx bxs-right-arrow-circle bx-md hover:bg-teal-200 rounded-md transition duration-150 ease-in-out' style="color: rgba(0, 200, 180)"></i>
+        </a>
+    {% else %}
+    <div class="flex justify-between items-center mt-4">
+    <span>&nbsp;</span>
+    {% endif %}
+        <div>
+            <a class="grid grid-cols-1 gap-y-1 hover:scale-110 rounded-md transition duration-150 ease-in-out" href="{% url "profiles:detail" post.author.username %}">
+                {% if post.author.profile.profile_pic %}
+                    {% thumbnail post.author.profile.profile_pic "100x100" crop="center" as im %}
+                    <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="mx-4 w-16 h-16 object-cover rounded-full hidden sm:block" alt="avatar">
+                    {% endthumbnail %}
+                {% else %}
+                <img src="{% static 'default.jpg' %}" width="100" height="100" class="mx-4 w-16 h-16 object-cover rounded-full hidden sm:block" alt="avatar">
+                {% endif %}
+                <div class="text-gray-700 text-center">
+                    <h1 class="font-bold">{{post.author.username}}</h1>
                 </div>
-            </div>
+            </a>                    
         </div>
+    </div>
+</div>

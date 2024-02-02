@@ -1,17 +1,22 @@
 {% extends "base.html" %}
 {% load i18n %}
 
-
 {% block body %}
-    {% if messages %}
-        <div>
-            <strong>{% trans "Messages:" %}</strong>
-            <ul>
-                {% for message in messages %}<li>{{ message }}</li>{% endfor %}
-            </ul>
-        </div>
-    {% endif %} 
-    {% block content %}
-    {% endblock content %}
-{% endblock body %}
+    <div class="max-w-lg mx-auto py-8 px-4 bg-white shadow-md rounded-lg">
+        {% if messages %}
+            <div class="mb-4">
+                <strong class="block text-lg mb-2">{% trans "Messages:" %}</strong>
+                <ul>
+                    {% for message in messages %}
+                        <li class="border-l-4 border-blue-500 pl-4 py-2 mb-2">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
 
+        <div class="bg-gray-100 rounded-lg p-6">
+            {% block content %}
+            {% endblock content %}
+        </div>
+    </div>
+{% endblock body %}

@@ -12,98 +12,122 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="font-poppins antialiased">
+<body class="font-open-sans antialiased overflow-x-hidden">
   <div id="view" class="h-full w-screen flex flex-row" x-data="{ sidenav: true }">
-    
-    <div id="sidebar"
-      class="bg-white h-screen md:block shadow-xl px-3 w-30 md:w-60 lg:w-60 overflow-x-hidden transition-transform duration-300 ease-in-out"
-      x-show="sidenav" @click.away="sidenav = false">
-      <div class="space-y-6 md:space-y-10 mt-10">
 
+    <div id="sidebar"
+    class="bg-white h-screen shadow-xl px-4 w-30 md:w-60 lg:w-60 overflow-x-hidden transition-transform duration-300 ease-in-out fixed left-0 top-0"
+    x-show="sidenav" @click.away="sidenav = false">
+      <div class="space-y-6 md:space-y-10 mt-10">
+        
         <h1 class="hidden md:block font-bold text-sm md:text-xl text-center">
           TIL<span class="text-teal-600">.</span>
         </h1>
-        <div id="profile" class="space-y-3">
-          
-          {% thumbnail request.user.profile.profile_pic "100x100" crop="center" as im %}
-                            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"class="w-10 md:w-16 rounded-full mx-auto" alt="Avatar user">
-          {% endthumbnail %}
-          <div>
-            <h2 class="font-medium text-xs md:text-sm text-center text-teal-500">
-              {{ request.user.username }}
-            </h2>
-            <p class="text-xs text-gray-500 text-center">User</p>
+        <div id="profile" class="space-y-3 hover:bg-teal-200 hover:text-white hover:scale-110 rounded-md transition duration-150 ease-in-out">
+        {% if request.user.is_authenticated %}
+        <a href="{% url 'profiles:detail' request.user.username %}">
+        {% endif %}
+        {% if request.user.profile.profile_pic %}  
+            {% thumbnail request.user.profile.profile_pic "100x100" crop="center" as im %}
+            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"
+              class="w-10 md:w-16 rounded-full mx-auto" alt="Avatar user">
+            {% endthumbnail %}
+          {% else %}
+            <img src="{% static 'default.jpg' %}" width="100" height="100" class="w-10 md:w-16 rounded-full mx-auto" alt="Avatar user">
+        {% endif %}
+            <div>
+              <h2 class="font-medium text-xs md:text-sm text-center text-teal-500">
+                {{ request.user.username }}
+              </h2>
+              <p class="text-xs text-gray-500 text-center">User</p>
           </div>
-        </div>
-        <div id="menu" class="flex flex-col space-y-2">
-          <a href="/"
-            class="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:text-base rounded-md transition duration-150 ease-in-out" style="display: flex; ">
-            <i class='bx bx-home bx-sm' style='color:rgba(0, 200, 180)'></i>
-            <span class="">Home</span>
-          </a>
+        </a>
+      </div>
+      <div id="menu" class="flex flex-col space-y-2">
+        <a href="/"
+          class="text-md font-medium text-gray-700 py-2 px-2 hover:bg-teal-200 hover:text-white hover:scale-110 rounded-md transition duration-150 ease-in-out"
+          style="display: flex; ">
+          <i class='bx bx-world bx-sm' style='color:rgba(0, 200, 180)'></i>
+          <span class="">Explore</span>
+        </a>
+        {% if request.user.is_authenticated %}
+        <a href="{% url "feed:following" %}"
+          class="text-md font-medium text-gray-700 py-2 px-2 hover:bg-teal-200 hover:text-white hover:scale-110 rounded-md transition duration-150 ease-in-out"
+          style="display: flex; ">
+          <i class='bx bx-home bx-sm' style='color:rgba(0, 200, 180)'></i>
+          <span class="">Following</span>
+        </a>
+        {% endif %}
 
-          
-          <div
-          class="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out modal-click" style="display: flex; ">
+        <div
+          class="text-md font-medium text-gray-700 py-2 px-2 hover:bg-teal-200 hover:text-white hover:scale-110 rounded-md transition duration-150 ease-in-out modal-click"
+          style="display: flex; ">
           <i class='bx bxs-message-rounded-add bx-sm' style='color:rgba(0, 200, 180)'></i>
           <span class="">Create</span>
         </div>
-        
+
         {% if request.user.is_authenticated %}
-          <a href="{% url 'account_logout' %}"
-            class="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out" style="display: flex; ">
-            <i class='bx bx-log-out bx-sm' style='color:rgba(0, 200, 180)'></i> 
-            <span class="">Logout</span>
-          </a>
+        <a href="{% url 'account_logout' %}"
+          class="text-md font-medium text-gray-700 py-2 px-2 hover:bg-teal-200 hover:text-white hover:scale-110 rounded-md transition duration-150 ease-in-out"
+          style="display: flex; ">
+          <i class='bx bx-log-out bx-sm' style='color:rgba(0, 200, 180)'></i>
+          <span class="">Logout</span>
+        </a>
 
-          {% else %}
-          <a href="{% url 'account_login' %}"
-          class="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out" style="display: flex; ">
+        {% else %}
+        <a href="{% url 'account_login' %}"
+          class="text-md font-medium text-gray-700 py-2 px-2 hover:bg-teal-200 hover:text-white hover:scale-110 rounded-md transition duration-150 ease-in-out"
+          style="display: flex; ">
           <i class='bx bx-log-in bx-sm' style='color:rgba(0, 200, 180)'></i> <span>Login</span>
-          </a>
+        </a>
 
-          <a href="{% url 'account_signup' %}"
-          class="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out" style="display: flex; ">
+        <a href="{% url 'account_signup' %}"
+          class="text-md font-medium text-gray-700 py-2 px-2 hover:bg-teal-200 hover:text-white hover:scale-110 rounded-md transition duration-150 ease-in-out"
+          style="display: flex; ">
           <i class='bx bx-archive-out bx-sm' style='color:rgba(0,200,180)'></i>
-            <span class="">Signup</span>
-          </a>
+          <span class="">Signup</span>
+        </a>
 
 
-          {% endif %}
-        </div>
+        {% endif %}
       </div>
     </div>
-    <div class="p-16">
-    {% block body %}Default{% endblock %} 
-    </div>
+  </div>
+  <div class="p-16 ml-80">
+    {% block body %}Default{% endblock %}
+  </div>
   </div>
   </class=>
 
 
-{% if request.user.is_authenticated %}
-  <div class="fixed left-0 top-0 flex h-full w-full items-center justify-center bg-black bg-opacity-60 py-10 hidden js-modal" id="create">
+  {% if request.user.is_authenticated %}
+  <div
+    class="fixed left-0 top-0 flex h-full w-full items-center justify-center bg-black bg-opacity-60 py-10 hidden js-modal"
+    id="create">
     <div class="max-h-full w-full max-w-xl overflow-y-auto sm:rounded-2xl bg-white">
       <div class="w-full">
         <div class="m-8 my-20 max-w-[400px] mx-auto">
           <div class="mb-8">
             <h1 class="mb-4 text-3xl font-extrabold">New Post</h1>
-           <div class="mb-4">
-              <textarea class="border-2 border-teal-500 my-4 w-full js-post-text" rows="4" placeholder="Write Your Thoughts" maxlength="240" data-post-url={% url "feed:create" %}></textarea>
-           </div>
+            <div class="mb-4">
+              <textarea class="border-2 border-teal-500 my-4 w-full js-post-text" rows="4"
+                placeholder="Write Your Thoughts" maxlength="240" data-post-url={% url "feed:create" %}></textarea>
+            </div>
           </div>
           <div class="space-y-4">
-            <button class="p-3 rounded-full text-white w-full font-semibold js-submit" style="background-color: rgba(0, 255, 206)">Submit</button>
+            <button class="p-3 rounded-full text-white w-full font-semibold js-submit"
+              style="background-color: rgba(0, 255, 206)">Submit</button>
             <button class="p-3 bg-white border rounded-full w-full font-semibold modal-click">Cancel</button>
           </div>
         </div>
       </div>
     </div>
   </div>
-{% endif %}
+  {% endif %}
 
 
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
-<script src="{% static 'js/main.js' %}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+  <script src="{% static 'js/main.js' %}"></script>
 
 </body>
 

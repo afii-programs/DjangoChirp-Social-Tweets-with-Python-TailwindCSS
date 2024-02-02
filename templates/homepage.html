@@ -6,12 +6,22 @@
 
 
 {% block body %}
-    <div id="posts-container">
-        {% for post in posts %}
-        
-            {% include "includes/post.html" with post=post detail_on=True %}
-        
-        {% endfor %}
+<div id="posts-container">
+        {% if messages %}
+                {% for message in messages %}
+                <div class="bg-gradient-to-r from-green-400 to-blue-500 text-center text-black py-1">
+                        {{message}}
+                    </div>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        {% if not posts %}
+            Explore and Follow someone
+        {% else %}
+            {% for post in posts %}
+                {% include "includes/post.html" with post=post detail_on=True %}
+            {% endfor %}
+        {% endif %}
     </div>
 {% endblock %}
 
