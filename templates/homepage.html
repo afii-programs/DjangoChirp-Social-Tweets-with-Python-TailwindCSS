@@ -3,10 +3,14 @@
 
 
 {% block title %}Home{% endblock %}
+{% block style %}
+    <script src="https://unpkg.com/htmx.org@1.9.6" integrity="sha384-FhXw7b6AlE/jyjlZH5iHa/tTe9EpJ1Y55RjcgPbjeWMskSxZt1v9qkxLJWNJaGni" crossorigin="anonymous"></script>
 
+{% endblock %}
 
 {% block body %}
-<div id="posts-container">
+    <div id="posts-container">
+
         {% if messages %}
                 {% for message in messages %}
                 <div class="bg-gradient-to-r from-green-400 to-blue-500 text-center text-black py-1">
@@ -15,12 +19,25 @@
                 {% endfor %}
             </ul>
         {% endif %}
+
         {% if not posts %}
             Explore and Follow someone
         {% else %}
+        <div id="posts">
             {% for post in posts %}
-                {% include "includes/post.html" with post=post detail_on=True %}
-            {% endfor %}
+                <div class="articles"> 
+                    {% include "includes/post.html" with post=post detail_on=True %}
+
+                    {% if posts.has_next and forloop.last %}
+                    <span hx-get="{% url 'feed:index' %}?page={{ posts.next_page_number }}"
+                        hx-swap="beforeend" hx-target="#posts" hx-select=".articles"
+                        hx-trigger="revealed">
+                        </span>
+
+                    {% endif %}
+                </div>
+            {% endfor %}    
+            </div>
         {% endif %}
     </div>
 {% endblock %}

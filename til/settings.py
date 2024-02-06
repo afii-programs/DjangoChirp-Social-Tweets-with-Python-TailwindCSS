@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.sites',
 
     'sorl.thumbnail',
+    'widget_tweaks',
+    "django_htmx",
     
     'feed',
     'profiles',
@@ -61,6 +63,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
+    'django_htmx.middleware.HtmxMiddleware',
 ]
 
 ROOT_URLCONF = 'til.urls'
@@ -159,6 +162,10 @@ AUTHENTICATION_BACKENDS = (
     "allauth.account.auth_backends.AuthenticationBackend"
 )
 
+ACCOUNT_FORMS = {
+  'signup': 'profiles.forms.CustomSignUpForm',
+  'login': 'profiles.forms.CustomLoginForm',
+}
 
 
 STATICFILES_DIRS = [

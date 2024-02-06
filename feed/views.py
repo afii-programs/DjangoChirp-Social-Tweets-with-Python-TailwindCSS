@@ -1,39 +1,48 @@
 from django.views.generic import ListView, DetailView, CreateView, TemplateView
 from .models import Post
-from django.shortcuts import render
 from followers.models import Followers
+from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponseRedirect
+from django.core.paginator import Paginator
+
 
 class HomePage(ListView):
-    http_method_names = ['get']
     template_name = 'homepage.html'
     model = Post
     context_object_name = 'posts'
-    queryset = Post.objects.all().order_by('-id')[0:30]
+    paginate_by = 10
 
+    def get_queryset(self):
+        return Post.objects.all().order_by('-id')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        page_number = self.request.GET.get('page', 1)
+        paginator = Paginator(self.get_queryset(), self.paginate_by)
+        page_obj = paginator.get_page(page_number)
+        context['posts'] = page_obj 
+        return context
 
 class FollowingFeed(TemplateView):
-    http_method_names = ["get"]
     template_name = "homepage.html"
 
-    def dispatch(self, request, *args, **kwargs):
-        self.request = request
-        return super().dispatch(request, *args, **kwargs)
-
-    def get_context_data(self, *args, **kwargs):
-        context = super().get_context_data(*args, **kwargs)
-
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
         following = list(
             Followers.objects.filter(followed_by=self.request.user).values_list('following', flat=True)
         )
         if not following:
             posts = None
         else:
-            posts = Post.objects.filter(author__in=following).order_by('-id')[0:60]
-        context['posts'] = posts
+            posts = Post.objects.filter(author__in=following).order_by('-id')
+
+        paginator = Paginator(posts, 10)
+        page_number = self.request.GET.get('page', 1)
+        page_obj = paginator.get_page(page_number)
+
+        context['posts'] = page_obj
         return context
-
-
 
 class PostDetailPage(DetailView):
     http_method_names = ['get']
@@ -55,8 +64,7 @@ class CreatePostPage(LoginRequiredMixin, CreateView):
         obj = form.save(commit=False)
         obj.author = self.request.user
         obj.save()
-        return super().form_valid(form)
-
+        return super().form_valid(form)     
 
     def post(self, request, *args, **kwargs):
 
@@ -73,4 +81,4 @@ class CreatePostPage(LoginRequiredMixin, CreateView):
                 "detail_on": True,
             },
             content_type="application/html"
-        )
+        ) 
