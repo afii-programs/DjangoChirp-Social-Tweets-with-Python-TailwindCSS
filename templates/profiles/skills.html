@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<div class="bg-[#1e1a36]/70 w-full min-h-[471px] p-4 text-sm font-semibold backdrop-blur-sm grid grid-cols-1 justify-items-center">
+    
+
+    <form method="post" action="." class="min-w-[700px] grid grid-cols-1 justify-items-center">
+        {% csrf_token %}
+            <div class="form-group text-teal-500 my-5 text-lg">
+                {{ form.new_skill.label_tag }}
+                {{ form.new_skill }}
+            </div>
+            <div class="form-group text-teal-500">
+                <p>SKILLS:</p>
+                <ul class="flex mt-4 flex-wrap items-center justify-start gap-2 gap-y-3">
+                    {% for field in form.skill %}
+                    <li class="border-2 border-[#2f2a47] px-3 py-1 rounded-[4px] transition-all duration-150 ease-in hover:scale-105 hover:cursor-pointer hover:bg-teal-200">
+                        {{ field }}
+                    </li>
+                {% endfor %}
+                </ul>
+            </div>
+        <button type="submit" class="px-6 py-2 mt-2 text-sm font-medium text-white bg-teal-600 border border-transparent rounded-md hover:bg-teal-1500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">Add Skill</button>
+    </form>
+</div>
+
+{% endblock %}

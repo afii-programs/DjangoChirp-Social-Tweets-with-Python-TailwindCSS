@@ -1,20 +1,10 @@
-# from django import forms
-# from django.contrib.auth.forms import UserCreationForm
-# from django.contrib.auth.models import User
-
-# class CustomUserCreationForm(UserCreationForm):
-#     profile_pic = forms.ImageField(required=True)
-
-#     class Meta:
-#         model = User
-#         fields = ['username', 'email', 'password1', 'profile_pic']
 from django import forms
 from allauth.account.forms import SignupForm,LoginForm
 from til.utils import DivErrorList
+from .models import Skill
 
 class PostForm(forms.Form):
     profile_pic = forms.ImageField()
-
 
 class CustomSignUpForm(SignupForm):
     def __init__(self, *args, **kwargs):
@@ -26,3 +16,20 @@ class CustomLoginForm(LoginForm):
         super(CustomLoginForm, self).__init__(*args, **kwargs)  
         self.error_class = DivErrorList
 
+class SkillForm(forms.Form):
+    new_skill = forms.CharField(max_length=100, required=False, label='New Skill')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['skill'] = forms.ModelMultipleChoiceField(
+            queryset=Skill.objects.all(),
+            widget=forms.CheckboxSelectMultiple(),
+            required=False,
+            label='Existing Skills'
+        )
+
+    def clean_new_skill(self):
+        new_skill = self.cleaned_data['new_skill']
+        if new_skill and Skill.objects.filter(skill=new_skill).exists():
+            raise forms.ValidationError("This skill already exists.")
+        return new_skill

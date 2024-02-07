@@ -8,13 +8,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}Default{% endblock %}</title>
+  <link rel="icon" href="{% static "default.jpg" %}" type="image/x-icon">
+  <link rel="shortcut icon" href="{% static "default.jpg" %}" type="image/x-icon">
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   {% block style %}{% endblock %}
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body class="font-open-sans antialiased overflow-x-hidden">
-  <div id="view" class="h-full w-screen flex flex-row" x-data="{ sidenav: true }">
+  <div class="w-full bg-[url(https://neluttu.github.io/pro-profile/wallpaper.jpg)] bg-[#292240] flex">
+  <div id="view" class="min-h-[599px] w-screen grid grid-cols-1 justify-items-center" x-data="{ sidenav: true }">
 
     <div id="sidebar"
     class="bg-white h-screen shadow-xl px-4 w-30 md:w-60 lg:w-60 overflow-x-hidden transition-transform duration-300 ease-in-out fixed left-0 top-0"
@@ -94,11 +97,10 @@
       </div>
     </div>
   </div>
-  <div class="p-16 ml-80">
+  <div class="p-16 ml-40">
     {% block body %}Default{% endblock %}
   </div>
   </div>
-  </class=>
 
 
   {% if request.user.is_authenticated %}
@@ -125,7 +127,7 @@
     </div>
   </div>
   {% endif %}
-
+</div>
 
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
   <script src="{% static 'js/main.js' %}"></script>

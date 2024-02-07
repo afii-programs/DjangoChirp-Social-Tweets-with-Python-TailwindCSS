@@ -2,8 +2,9 @@ from django.views.generic import ListView, DetailView, CreateView, TemplateView
 from .models import Post
 from followers.models import Followers
 from django.shortcuts import render
+from django.template.loader import render_to_string
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse
 from django.core.paginator import Paginator
 
 
@@ -34,14 +35,15 @@ class FollowingFeed(TemplateView):
         )
         if not following:
             posts = None
+            context['posts'] = posts
         else:
             posts = Post.objects.filter(author__in=following).order_by('-id')
+            paginator = Paginator(posts, 10)
+            page_number = self.request.GET.get('page', 1)
+            page_obj = paginator.get_page(page_number)
+            context['posts'] = page_obj 
 
-        paginator = Paginator(posts, 10)
-        page_number = self.request.GET.get('page', 1)
-        page_obj = paginator.get_page(page_number)
 
-        context['posts'] = page_obj
         return context
 
 class PostDetailPage(DetailView):
@@ -60,25 +62,30 @@ class CreatePostPage(LoginRequiredMixin, CreateView):
         self.request = request
         return super().dispatch(request, *args, **kwargs)
 
+    
     def form_valid(self, form):
         obj = form.save(commit=False)
         obj.author = self.request.user
         obj.save()
-        return super().form_valid(form)     
-
-    def post(self, request, *args, **kwargs):
-
-        post = Post.objects.create(
-            text=request.POST.get("text"),
-            author=request.user,
-        )
-
-        return render(
-            request,
+        
+        # Render the post detail template
+        post_detail_html = render_to_string(
             "includes/post.html",
             {
-                "post": post,
+                "post": obj,
                 "detail_on": True,
-            },
-            content_type="application/html"
-        ) 
+            }
+        )
+        
+        # Return an HTTP response with JavaScript for redirection
+        return HttpResponse(
+            f"""
+            <script>
+                setTimeout(function() {{
+                    window.location.href = '{self.success_url}';
+                }}, 100);  // Redirect after 3 seconds
+            </script>
+            {post_detail_html}
+            """,
+            content_type="text/html"
+        )

@@ -5,7 +5,6 @@
 
 
 {% block body %}
-    {% comment %} <main class="flex min-h-screen w-full items-center justify-center bg-gray-100"> {% endcomment %}
     <form method="POST" action=".">
     {% csrf_token %}
     {{form.as_p}}        
@@ -13,6 +12,5 @@
       Hover me!
       <div class="absolute inset-0 h-full w-full scale-0 rounded-2xl transition-all duration-300 group-hover:scale-100 group-hover:bg-white/30"></div>
     </button>
-  {% comment %} </main> {% endcomment %}
     </form>
 {% endblock %}

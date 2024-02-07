@@ -6,11 +6,11 @@
 {% block title %}{{user.username}}{% endblock %}
 
 {% block body %}
-<!-- component -->
-<div
-    class="bg-[url(https://neluttu.github.io/pro-profile/wallpaper.jpg)] bg-[#292240] flex items-center justify-center min-h-screen text-[#9e9cb6] ml-20">
-    <section class="w-full max-w-[430px] relative bg-[#231f39]/60 rounded-[6px] shadow-[0px_15px_39px_16px_rgba(52,45,91,0.65)] backdrop-blur-sm mx-2 overflow-hidden">
+<div class="ml-10 flex items-center justify-center text-[#9e9cb6]">
+    <section class="w-full min-w-[700px] relative bg-[#231f39]/60 rounded-[6px] shadow-[0px_15px_39px_16px_rgba(52,45,91,0.65)] backdrop-blur-sm mx-2 overflow-hidden">
+    {% if request.user == user %}
         <a href="{% url "profiles:add_image" user.username %}">
+    {% endif %}
             {% if user.profile.profile_pic %}
                 {% thumbnail user.profile.profile_pic "300x300" crop="center" as im %}
                     <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="rounded-full w-[180px] mx-auto my-10 p-0 border-[6px] box-content border-[#231f39] shadow-[0px_27px_16px_-11px_rgba(31,27,56,0.25)] transition-all duration-150 ease-in hover:scale-105 cursor-pointer slide-in-elliptic-top-fwd" alt="avatar">
@@ -42,20 +42,19 @@
         </div>
         <div class="bg-[#1e1a36]/70 p-4 text-sm font-semibold backdrop-blur-sm">
             <p>SKILLS</p>
-            <ul
-                class="flex mt-4 flex-wrap items-center justify-start gap-2 gap-y-3 [&>li]:border-2 [&>li]:border-[#2f2a47] [&>li]:px-3 [&>li]:py-1 [&>li]:rounded-[4px] [&>li]:transition-all [&>li]:duration-150 [&>li]:ease-in [&>li:hover]:scale-105 [&>li:hover]:cursor-pointer">
-                <li>UI/UX</li>
-                <li>Front End Development</li>
-                <li>HTML</li>
-                <li>CSS</li>
-                <li>Back End Development</li>
-                <li>TailwindCSS</li>
-                <li>JavaScript</li>
-                <li>jQuery</li>
-                <li>PHP</li>
-                <li>MySQL</li>
-                <li>SEO</li>
+            {% if request.user == user %}
+                <a href="{% url "profiles:skills" user.username %}" >
+                    <button class="float-right bg-[#1e1a99]/70 border-2 border-[#2ffa47] px-3 py-1 rounded-[4px] transition-all duration-150 ease-in hover:scale-105 hover:cursor-pointer">
+                        Add Skill
+                    </button>
+                </a>
+            {% endif %}  
+            <ul class="flex mt-4 flex-wrap items-center justify-start gap-2 gap-y-3 [&>li]:border-2 [&>li]:border-[#2f2a47] [&>li]:px-3 [&>li]:py-1 [&>li]:rounded-[4px] [&>li]:transition-all [&>li]:duration-150 [&>li]:ease-in [&>li:hover]:scale-105 [&>li:hover]:cursor-pointer">
+            {% for skill in user.profile.user_skills.all %}
+                <li>{{skill.skill}}</li>
+                {% endfor %}
             </ul>
+            
         </div>
     </section>
     </div>

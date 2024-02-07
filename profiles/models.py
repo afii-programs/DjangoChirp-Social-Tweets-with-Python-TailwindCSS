@@ -7,6 +7,8 @@ from sorl.thumbnail import ImageField
 
 # Create your models here.
 
+
+
 class Profiles(models.Model):
     user = models.OneToOneField(
         User,
@@ -22,3 +24,10 @@ class Profiles(models.Model):
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         Profiles.objects.create(user=instance)
+
+class Skill(models.Model):
+    skill = models.CharField(max_length=100, unique=True)
+    profiles = models.ManyToManyField(Profiles, related_name='user_skills')
+
+    def __str__(self):
+        return self.skill

@@ -3,11 +3,12 @@ from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http.response import JsonResponse, HttpResponseBadRequest
 from django.contrib import messages
+from django.urls import reverse_lazy
+
 from followers.models import Followers
 from feed.models import Post
-from .forms import PostForm
-from .models import Profiles
-
+from .forms import PostForm, SkillForm
+from .models import Profiles, Skill
 
 class ProfileDetail(DetailView):
     http_method_names = ['get']
@@ -87,3 +88,33 @@ class AddImage(FormView):
         messages.success(self.request, "Profile Picture Successfully Added!")
 
         return super().form_valid(form)
+    
+
+class SkillListView(FormView):
+    template_name = 'profiles/skills.html'
+    form_class = SkillForm
+    
+    def dispatch(self, request, *args, **kwargs):
+        self.request = request
+        return super().dispatch(request, *args, **kwargs)
+    
+    def form_valid(self, form):
+        new_skill_name = form.cleaned_data.get('new_skill')
+        existing_skills = form.cleaned_data.get('skill')
+
+        if new_skill_name:
+            new_skill, created = Skill.objects.get_or_create(skill=new_skill_name)
+            self.request.user.profile.user_skills.add(new_skill)
+
+        for skill in existing_skills:
+            self.request.user.profile.user_skills.add(skill)
+
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['skills'] = Skill.objects.all()
+        return context
+
+    def get_success_url(self):
+        return f"/profile/{self.request.user.username}/"
