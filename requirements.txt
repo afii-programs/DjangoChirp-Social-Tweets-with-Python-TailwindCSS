@@ -1,0 +1,5 @@
+Django==5.0.2
+sorl_thumbnail==12.10.0
+widget_tweaks
+django_htmx
+allauth
