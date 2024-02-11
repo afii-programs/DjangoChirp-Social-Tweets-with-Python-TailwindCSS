@@ -43,8 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
 
     'sorl.thumbnail',
-    "django_htmx",
-    
+        
     'feed',
     'profiles',
     'followers',
