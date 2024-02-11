@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-s4lq!1=zs47=2y*s$1s(lkdwvqa2umva8$si4p0&05(=y$(*0b
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['.vercel.app']
+ALLOWED_HOSTS = ['localhost','.vercel.app']
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 MEDIA_URL = '/media/'
@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'django.contrib.sites',
 
     'sorl.thumbnail',
-    'widget_tweaks',
     "django_htmx",
     
     'feed',
