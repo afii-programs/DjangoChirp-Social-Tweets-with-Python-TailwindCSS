@@ -8,8 +8,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}Default{% endblock %}</title>
-  <link rel="icon" href="{% static "default.jpg" %}" type="image/x-icon">
-  <link rel="shortcut icon" href="{% static "default.jpg" %}" type="image/x-icon">
+  {% comment %} <link rel="icon" href="{% static "default.jpg" %}" type="image/x-icon">
+  <link rel="shortcut icon" href="{% static "default.jpg" %}" type="image/x-icon"> {% endcomment %}
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   {% block style %}{% endblock %}
   <script src="https://cdn.tailwindcss.com"></script>
