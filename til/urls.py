@@ -27,3 +27,5 @@ urlpatterns = [
     path('profile/',include(profile_urls, namespace='profiles')),
     path('', include('allauth.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
