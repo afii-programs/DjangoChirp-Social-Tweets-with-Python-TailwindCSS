@@ -1,5 +1,12 @@
 # DjangoChirp-Social-Tweets-with-Python-TailwindCSS
 
+
+
+
+https://github.com/user-attachments/assets/f97d45dc-1272-49d6-ab9d-071d08e47a83
+
+
+
 *Project Description:*
 
 Our project is a social media platform inspired by Twitter, built using Python Django, Tailwind CSS, JavaScript, and htmx. It provides users with a seamless experience for sharing updates, engaging with others, and managing their profiles.
